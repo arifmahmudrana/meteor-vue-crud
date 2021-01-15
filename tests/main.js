@@ -5,7 +5,7 @@ import '../imports/api/departments.tests';
 describe('meteor-vue-crud', function () {
   it('package.json has correct name', async function () {
     const { name } = await import('../package.json');
-    assert.strictEqual('name', 'meteor-vue-crud');
+    assert.strictEqual(name, 'meteor-vue-crud');
   });
 
   if (Meteor.isClient) {
