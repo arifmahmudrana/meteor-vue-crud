@@ -1,5 +1,5 @@
 import { Meteor } from 'meteor/meteor';
-import { assert } from 'chai';
+import { expect } from 'chai';
 
 import { Departments } from './departments.js';
 
@@ -19,7 +19,7 @@ if (Meteor.isServer) {
             title: 'CSE',
           },
         ]);
-        assert.equal(Departments.find().count(), 1);
+        expect(Departments.find().count()).to.equal(1);
       });
     });
 
@@ -34,7 +34,7 @@ if (Meteor.isServer) {
           },
         ]);
         const department = Departments.findOne({ _id: departmentId });
-        assert.equal(department.title, 'EEE');
+        expect(department.title).to.equal('EEE');
       });
     });
 
@@ -44,7 +44,7 @@ if (Meteor.isServer) {
           Meteor.server.method_handlers['departments.remove'];
         removeDepartment.apply({}, [departmentId]);
         const department = Departments.findOne({ _id: departmentId });
-        assert.equal(department, null);
+        expect(department).to.be.undefined;
       });
     });
   });
