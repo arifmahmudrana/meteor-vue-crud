@@ -6,6 +6,7 @@ import { Departments } from './departments.js';
 if (Meteor.isServer) {
   describe('Departments', () => {
     let departmentId;
+
     before(() => {
       Departments.remove({});
     });
@@ -15,6 +16,7 @@ if (Meteor.isServer) {
         departmentId = Meteor.server.method_handlers[
           'departments.insert'
         ].apply({}, [{ title: 'CSE' }]);
+
         expect(Departments.find().count()).to.equal(1);
       });
 
@@ -47,7 +49,7 @@ if (Meteor.isServer) {
         );
       });
 
-      it('can update empty department', () => {
+      it('can not update empty department', () => {
         expect(() =>
           Meteor.server.method_handlers['departments.update'].apply({}, [
             departmentId,
