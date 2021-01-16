@@ -2,6 +2,7 @@ import assert from 'assert';
 
 import '../imports/api/departments.tests';
 import '../imports/api/subjects.tests';
+import '../imports/api/students.tests';
 
 describe('meteor-vue-crud', function () {
   it('package.json has correct name', async function () {
