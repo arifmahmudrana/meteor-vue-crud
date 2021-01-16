@@ -12,39 +12,71 @@ if (Meteor.isServer) {
 
     describe('departments.insert', () => {
       it('can insert department', () => {
-        const insertDepartment =
-          Meteor.server.method_handlers['departments.insert'];
-        departmentId = insertDepartment.apply({}, [
-          {
-            title: 'CSE',
-          },
-        ]);
+        departmentId = Meteor.server.method_handlers[
+          'departments.insert'
+        ].apply({}, [{ title: 'CSE' }]);
         expect(Departments.find().count()).to.equal(1);
+      });
+
+      it('can not insert empty department', () => {
+        expect(() =>
+          Meteor.server.method_handlers['departments.insert']({}, [
+            { title: '' },
+          ])
+        ).to.throw();
+      });
+
+      it('can not insert duplicate department', () => {
+        expect(() =>
+          Meteor.server.method_handlers['departments.insert']({}, [
+            { title: 'CSE' },
+          ])
+        ).to.throw();
       });
     });
 
     describe('departments.update', () => {
       it('can update department', () => {
-        const updateDepartment =
-          Meteor.server.method_handlers['departments.update'];
-        updateDepartment.apply({}, [
+        Meteor.server.method_handlers['departments.update'].apply({}, [
           departmentId,
-          {
-            title: 'EEE',
-          },
+          { title: 'EEE' },
         ]);
-        const department = Departments.findOne({ _id: departmentId });
-        expect(department.title).to.equal('EEE');
+
+        expect(Departments.findOne({ _id: departmentId }).title).to.equal(
+          'EEE'
+        );
+      });
+
+      it('can update empty department', () => {
+        expect(() =>
+          Meteor.server.method_handlers['departments.update'].apply({}, [
+            departmentId,
+            { title: '' },
+          ])
+        ).to.throw();
+      });
+
+      it('can not update duplicate department', () => {
+        Meteor.server.method_handlers['departments.insert'].apply({}, [
+          { title: 'CSE' },
+        ]);
+
+        expect(() =>
+          Meteor.server.method_handlers['departments.update'].apply({}, [
+            departmentId,
+            { title: 'CSE' },
+          ])
+        ).to.throw();
       });
     });
 
     describe('departments.remove', () => {
       it('can remove department', () => {
-        const removeDepartment =
-          Meteor.server.method_handlers['departments.remove'];
-        removeDepartment.apply({}, [departmentId]);
-        const department = Departments.findOne({ _id: departmentId });
-        expect(department).to.be.undefined;
+        Meteor.server.method_handlers['departments.remove'].apply({}, [
+          departmentId,
+        ]);
+
+        expect(Departments.findOne({ _id: departmentId })).to.be.undefined;
       });
     });
   });
