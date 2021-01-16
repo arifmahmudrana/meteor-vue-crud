@@ -51,6 +51,9 @@ Meteor.methods({
   },
 
   'subjects.remove'(_id = '') {
+    validate(_id, 'Subject ID can not be empty');
+
+    // TODO: Remove subject from student
     return Subjects.remove(_id);
   },
 });
