@@ -46,6 +46,8 @@ Meteor.methods({
   },
 
   'departments.remove'(_id = '') {
+    validate(_id, 'Department ID can not be empty');
+
     // TODO: Department can't be removed if it has subjects
     return Departments.remove(_id);
   },
