@@ -19,6 +19,7 @@ Meteor.methods({
       throw new Meteor.Error(`${title} is duplicate`);
     }
   },
+
   'departments.insert'(department = {}) {
     validate(department.title, 'Department title can not be empty');
     Meteor.server.method_handlers['departments.exists'].apply({}, [
@@ -27,6 +28,7 @@ Meteor.methods({
 
     return Departments.insert(department);
   },
+
   'departments.update'(_id = '', department = {}) {
     validate(_id, 'Department ID can not be empty');
     validate(department.title, 'Department title can not be empty');
@@ -42,6 +44,7 @@ Meteor.methods({
       { $set: department }
     );
   },
+
   'departments.remove'(_id = '') {
     return Departments.remove(_id);
   },
