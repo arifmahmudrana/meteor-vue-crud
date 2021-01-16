@@ -46,6 +46,7 @@ Meteor.methods({
   },
 
   'departments.remove'(_id = '') {
+    // TODO: Department can't be removed if it has subjects
     return Departments.remove(_id);
   },
 });
